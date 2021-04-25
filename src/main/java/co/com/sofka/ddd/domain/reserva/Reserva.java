@@ -8,12 +8,15 @@ import co.com.sofka.ddd.domain.reserva.events.ReservaCreada;
 import co.com.sofka.ddd.domain.reserva.values.PrestamoId;
 import co.com.sofka.ddd.domain.reserva.values.ReservaId;
 import co.com.sofka.ddd.domain.reserva.values.TrabajadorId;
+import co.com.sofka.ddd.domain.solicitante.Solicitante;
 import co.com.sofka.ddd.domain.solicitante.values.Correo;
 import co.com.sofka.ddd.domain.solicitante.values.Nombre;
 import co.com.sofka.ddd.domain.solicitante.values.PersonaId;
 import co.com.sofka.domain.generic.AggregateEvent;
+import co.com.sofka.domain.generic.DomainEvent;
 
 import java.util.Date;
+import java.util.List;
 
 public class Reserva extends AggregateEvent<ReservaId> {
 
@@ -31,6 +34,12 @@ public class Reserva extends AggregateEvent<ReservaId> {
     private Reserva(ReservaId entityId) {
         super(entityId);
         subscribe(new ReservaChange(this));
+    }
+
+    public static Reserva from(ReservaId entityId, List<DomainEvent> events) {
+        var reserva = new Reserva(entityId);
+        events.forEach(reserva::applyEvent);
+        return reserva;
     }
 
     public void asignarPrestamo(PrestamoId prestamoId, Boolean estado, Date fecha){

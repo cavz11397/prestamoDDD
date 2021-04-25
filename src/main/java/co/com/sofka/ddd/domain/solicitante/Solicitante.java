@@ -6,8 +6,10 @@ import co.com.sofka.ddd.domain.solicitante.events.AsignacionDeSancion;
 import co.com.sofka.ddd.domain.solicitante.events.SolicitanteCreado;
 import co.com.sofka.ddd.domain.solicitante.values.*;
 import co.com.sofka.domain.generic.AggregateEvent;
+import co.com.sofka.domain.generic.DomainEvent;
 
 import java.util.Date;
+import java.util.List;
 
 public class Solicitante extends AggregateEvent<PersonaId> {
 
@@ -26,6 +28,12 @@ public class Solicitante extends AggregateEvent<PersonaId> {
     private Solicitante(PersonaId entityId) {
         super(entityId);
         subscribe(new SolicitanteChange(this));
+    }
+
+    public static Solicitante from(PersonaId entityId, List<DomainEvent> events) {
+        var solicitante = new Solicitante(entityId);
+        events.forEach(solicitante::applyEvent);
+        return solicitante;
     }
 
     public void AsignacionSancion(SancionId sancionId, PrestamoId prestamoId, ReservaId reservaId, Date fechaInicio, Date fechaFin){
