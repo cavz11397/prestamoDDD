@@ -1,8 +1,13 @@
 package co.com.sofka.ddd.domain.solicitante;
 
+import co.com.sofka.ddd.domain.reserva.values.PrestamoId;
+import co.com.sofka.ddd.domain.reserva.values.ReservaId;
+import co.com.sofka.ddd.domain.solicitante.events.AsignacionDeSancion;
 import co.com.sofka.ddd.domain.solicitante.events.SolicitanteCreado;
 import co.com.sofka.ddd.domain.solicitante.values.*;
 import co.com.sofka.domain.generic.AggregateEvent;
+
+import java.util.Date;
 
 public class Solicitante extends AggregateEvent<PersonaId> {
 
@@ -10,6 +15,7 @@ public class Solicitante extends AggregateEvent<PersonaId> {
     protected Correo correo;
     protected Telefono telefono;
     protected Estado estado;
+    protected Sancion sancion;
 
     public Solicitante(PersonaId entityId,Nombre nombre, Correo correo, Telefono telefono, Estado estado){
         super(entityId);
@@ -20,6 +26,10 @@ public class Solicitante extends AggregateEvent<PersonaId> {
     private Solicitante(PersonaId entityId) {
         super(entityId);
         subscribe(new SolicitanteChange(this));
+    }
+
+    public void AsignacionSancion(SancionId sancionId, PrestamoId prestamoId, ReservaId reservaId, Date fechaInicio, Date fechaFin){
+        appendChange(new AsignacionDeSancion(sancionId,prestamoId,reservaId,fechaInicio,fechaFin)).apply();
     }
 
     public void modificarNombre(Nombre nombre) {
@@ -52,5 +62,9 @@ public class Solicitante extends AggregateEvent<PersonaId> {
 
     public Estado Estado() {
         return estado;
+    }
+
+    public Sancion getSancion() {
+        return sancion;
     }
 }

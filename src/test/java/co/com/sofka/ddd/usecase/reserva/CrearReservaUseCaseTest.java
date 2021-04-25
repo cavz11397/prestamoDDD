@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 class CrearReservaUseCaseTest {
 
@@ -34,6 +33,8 @@ class CrearReservaUseCaseTest {
                 getDomainEvents();
 
         ReservaCreada event = (ReservaCreada) events.get(0);
+
+        Assertions.assertEquals(materialId,event.getMaterialId());
 
 
     }

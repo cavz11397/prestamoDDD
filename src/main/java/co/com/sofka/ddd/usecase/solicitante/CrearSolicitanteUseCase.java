@@ -5,13 +5,6 @@ import co.com.sofka.business.support.RequestCommand;
 import co.com.sofka.business.support.ResponseEvents;
 import co.com.sofka.ddd.domain.solicitante.Solicitante;
 import co.com.sofka.ddd.domain.solicitante.command.CrearSolicitante;
-import co.com.sofka.ddd.domain.solicitante.events.SolicitanteCreado;
-import co.com.sofka.ddd.domain.solicitante.values.Correo;
-import co.com.sofka.ddd.domain.solicitante.values.Estado;
-import co.com.sofka.ddd.domain.solicitante.values.Nombre;
-import co.com.sofka.ddd.domain.solicitante.values.Telefono;
-
-import java.util.List;
 
 public class CrearSolicitanteUseCase extends UseCase<RequestCommand<CrearSolicitante>, ResponseEvents> {
     @Override
